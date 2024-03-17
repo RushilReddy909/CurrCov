@@ -3,11 +3,13 @@ from flask import Flask, render_template, request, session, redirect, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import security
 from helpers import check_email, check_pass
+from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.permanent_session_lifetime = timedelta(hours=1)
 
 db = SQLAlchemy(app)
 
@@ -97,6 +99,7 @@ def login():
             return redirect(url_for('login'))
         
         #Assign session and redirect to Home Page
+        session.permanent = True
         session["u_id"] = found_user.id
         return redirect(url_for('index'))
 

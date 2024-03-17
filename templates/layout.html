@@ -21,14 +21,39 @@
     <header class="mb-5">
         <nav class="navbar navbar-dark bg-dark navbar-expand-lg border-bottom">
             <div class="container-fluid mx-3">
-                <a class="navbar-brand" href="#" id="brand">
+                <a class="navbar-brand" href="{{url_for('index')}}" id="brand">
                     <i class="fa-solid fa-coins me-2"></i>CurrCov
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse gap-3" id="navbarSupportedContent">
-                    {% block navbar %}{% endblock %}
+                    {% if "u_id" in session %}
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{url_for('index')}}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        </li>
+                      </ul>
+                    
+                    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center ms-auto gap-3" id="links">
+                        <a href="{{url_for('logout')}}" class="px-3 py-1 text-white me-3">
+                            <i class="fa-solid fa-right-from-bracket"></i>Logout
+                        </a>
+                    </div>
+                    {% else %}
+                    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center ms-auto gap-3" id="links">
+                        <a href="{{url_for('signup')}}" class="px-3 py-1 text-white me-3">
+                            <i class="fa-solid fa-user-plus me-2"></i>Sign Up
+                        </a>
+                        <a href="{{url_for('login')}}" class="px-3 py-1 text-white"><i class="fa-solid fa-user me-2"></i>Login</a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
           </nav>
