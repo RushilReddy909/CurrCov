@@ -37,8 +37,9 @@ def index():
         #TODO handle error
         
         rates = response.json()["rates"]
+        currencies = requests.get("https://api.frankfurter.app/currencies").json()
         return render_template('index.html', date=response.json()["date"], c1=rates['AUD'], c2=rates['CAD'], c3=rates['CHF'], c4=rates['CNY'], c5=rates['EUR'], 
-                               c6=rates['GBP'], c7=rates['JPY'], c8=rates['USD'])
+                               c6=rates['GBP'], c7=rates['JPY'], c8=rates['USD'], currencies=currencies)
 
 @app.route('/signup', methods=["POST", "GET"])
 def signup():

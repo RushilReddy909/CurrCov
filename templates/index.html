@@ -49,5 +49,23 @@
                 <h3 id="USD">{{c8}} USD</h3>
             </div>
         </div>
+        <hr><br>
+        <h2 class="mb-4">List of Supported Currencies</h2>
+        <table class="table table-hover" style="border-top: calc(var(--bs-border-width) * 2) solid currentcolor;">
+            <thead>
+                <tr>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Code</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for item in currencies %}
+                <tr>
+                    <td>{{currencies[item]}}</td>
+                    <th>{{item}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

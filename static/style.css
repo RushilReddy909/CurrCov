@@ -7,7 +7,7 @@ body {
     min-height: 100vh;
 }
 
-h1 {
+h1, h2 {
     font-weight: bold;
     text-align: center;
     text-decoration: underline;
@@ -38,10 +38,6 @@ footer {
 footer > div {
     display: inline-block;
     background-color: black;
-}
-
-.borderTest {
-    border: 2px solid red;
 }
 
 nav {
@@ -82,4 +78,8 @@ h4 > img {
     width: 1.5em;
     height: 2em;
     padding-left: 0.3em;
+}
+
+td {
+    font-size: large;
 }
