@@ -3,5 +3,51 @@
 {% block title %} Home {% endblock %}
 
 {% block main %}
-    <h1>Hello guys</h1>
+    <div class="container p-3">
+        <h1>Popular Currencies</h1>
+        <hr>
+        <p class="alert alert-info">Note: Records are as of {{date}} (YYYY/MM/DD)</p>
+        <div class="p-3 grid">
+            <div class="card p-4">
+                <h4>Australian Dollar <img src="https://flagicons.lipis.dev/flags/4x3/au.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="AUD">{{c1}} AUD</h3>
+            </div>
+            <div class="card p-4">
+                <h4>Canadian Dollar <img src="https://flagicons.lipis.dev/flags/4x3/ca.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="CAD">{{c2}} CAD</h3>
+            </div>
+            <div class="card p-4">
+                <h4>Swiss Franc <img src="https://flagicons.lipis.dev/flags/4x3/ch.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="CHF">{{c3}} CHF</h3>
+            </div>
+            <div class="card p-4">
+                <h4>Chinese Yuan <img src="https://flagicons.lipis.dev/flags/4x3/cn.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="CNY">{{c4}} CNY</h3>
+            </div>
+            <div class="card p-4">
+                <h4>Euro <img src="https://flagicons.lipis.dev/flags/4x3/eu.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="EUR">{{c5}} EUR</h3>
+            </div>
+            <div class="card p-4">
+                <h4>Pound Sterling <img src="https://flagicons.lipis.dev/flags/4x3/gb.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="GBP">{{c6}} GBP</h3>
+            </div>
+            <div class="card p-4">
+                <h4>Japanese Yen <img src="https://flagicons.lipis.dev/flags/4x3/jp.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="JPY">{{c7}} JPY</h3>
+            </div>
+            <div class="card p-4">
+                <h4>US Dollar <img src="https://flagicons.lipis.dev/flags/4x3/us.svg"></h4>
+                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h3 id="USD">{{c8}} USD</h3>
+            </div>
+        </div>
+    </div>
 {% endblock %}

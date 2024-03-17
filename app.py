@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug import security
 from helpers import check_email, check_pass
 from datetime import timedelta
+import requests
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -31,7 +32,13 @@ with app.app_context():
 def index():
     if "u_id" not in session:
         return redirect(url_for('login'))
-    return render_template('index.html')
+    else:
+        response = requests.get("https://api.frankfurter.app/latest?from=INR&to=USD,EUR,JPY,GBP,AUD,CAD,CHF,CNY")
+        #TODO handle error
+        
+        rates = response.json()["rates"]
+        return render_template('index.html', date=response.json()["date"], c1=rates['AUD'], c2=rates['CAD'], c3=rates['CHF'], c4=rates['CNY'], c5=rates['EUR'], 
+                               c6=rates['GBP'], c7=rates['JPY'], c8=rates['USD'])
 
 @app.route('/signup', methods=["POST", "GET"])
 def signup():
