@@ -2,7 +2,7 @@ from os import urandom
 from flask import Flask, render_template, request, session, redirect, url_for, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import security
-from helpers import check_email
+from helpers import check_email, check_pass
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -48,9 +48,15 @@ def signup():
         if not check_email(email):
             flash("Invalid Email Address provided.", "error")
             return redirect(url_for('signup'))
+        
+        if not check_pass(password):
+            flash("Invalid Password provided.", "error")
+            return redirect(url_for('signup'))
+        
         if found_user:
             flash("Email already in use, please login.", "error")
             return redirect(url_for('signup'))
+        
         if password != con_pass:
             flash("Passwords don't match, please try again.", "error")
             return redirect(url_for('signup'))
@@ -79,7 +85,7 @@ def login():
 
         #Perform Validation
         if not check_email(email):
-            flash("Invalid Email Address provided.", "error")
+            flash("Email Address does not exist in database.", "error")
             return redirect(url_for('login'))
 
         if not found_user:
@@ -93,6 +99,12 @@ def login():
         #Assign session and redirect to Home Page
         session["u_id"] = found_user.id
         return redirect(url_for('index'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("Successfully Logged out of Session.", "info")
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     db.create_all()
