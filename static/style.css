@@ -21,6 +21,10 @@ h1 {
     overflow: hidden;
 }
 
+.carousel {
+    border: 5px solid yellow;
+}
+
 .carousel img {
     height: 350px;
 }
@@ -49,4 +53,10 @@ nav {
     background-color: #F092DD;
     border-radius: 25px;
     text-decoration: none;
+}
+
+.alert {
+    font-weight: bold;
+    text-align: center;
+    font-size: large;
 }
