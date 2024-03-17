@@ -5,6 +5,7 @@ from werkzeug import security
 from helpers import check_email, check_pass
 from datetime import timedelta
 import requests
+import json
 
 app = Flask(__name__)
 app.secret_key = urandom(24)
@@ -38,8 +39,7 @@ def index():
         
         rates = response.json()["rates"]
         currencies = requests.get("https://api.frankfurter.app/currencies").json()
-        return render_template('index.html', date=response.json()["date"], c1=rates['AUD'], c2=rates['CAD'], c3=rates['CHF'], c4=rates['CNY'], c5=rates['EUR'], 
-                               c6=rates['GBP'], c7=rates['JPY'], c8=rates['USD'], currencies=currencies)
+        return render_template('index.html', date=response.json()["date"], rates=json.dumps(rates), currencies=currencies)
 
 @app.route('/signup', methods=["POST", "GET"])
 def signup():
