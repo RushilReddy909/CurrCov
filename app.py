@@ -105,9 +105,12 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.clear()
-    flash("Successfully Logged out of Session.", "info")
-    return redirect(url_for('login'))
+    if "u_id" in session:
+        session.clear()
+        flash("Successfully Logged out of Session.", "info")
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 if __name__ == "__main__":
     db.create_all()
