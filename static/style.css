@@ -35,6 +35,11 @@ footer {
     color: white;
 }
 
+footer > div {
+    display: inline-block;
+    background-color: black;
+}
+
 .borderTest {
     border: 2px solid red;
 }

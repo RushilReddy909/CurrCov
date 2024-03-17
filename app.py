@@ -112,6 +112,13 @@ def logout():
     else:
         return redirect(url_for('login'))
 
+@app.route('/quote')
+def quote():
+    if "u_id" not in session:
+        return redirect(url_for('login'))
+    else:
+        return render_template('quote.html')
+
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
