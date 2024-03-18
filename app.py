@@ -1,5 +1,5 @@
 from os import urandom
-from flask import Flask, render_template, request, session, redirect, url_for, flash, get_flashed_messages
+from flask import Flask, render_template, request, session, redirect, url_for, flash, get_flashed_messages,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import security
 from helpers import check_email, check_pass
@@ -29,6 +29,9 @@ class Users(db.Model):
 with app.app_context():
     db.create_all()
 
+#Find available currencies only once, when server starts.
+currencies = requests.get("https://api.frankfurter.app/currencies").json()
+
 @app.route('/')
 def index():
     if "u_id" not in session:
@@ -38,7 +41,6 @@ def index():
         #TODO handle error
         
         rates = response.json()["rates"]
-        currencies = requests.get("https://api.frankfurter.app/currencies").json()
         return render_template('index.html', date=response.json()["date"], rates=json.dumps(rates), currencies=currencies)
 
 @app.route('/signup', methods=["POST", "GET"])
@@ -120,12 +122,19 @@ def logout():
     else:
         return redirect(url_for('login'))
 
-@app.route('/quote')
+@app.route('/quote', methods=["GET", "POST"])
 def quote():
     if "u_id" not in session:
         return redirect(url_for('login'))
+    elif request.method == "GET":
+        return render_template('quote.html', currencies=currencies)
     else:
-        return render_template('quote.html')
+        #TODO error handling
+
+        data = request.json
+        response = requests.get(f"https://api.frankfurter.app/{data['date']}?amount={data['amount']}&from={data['fromCurr']}&to={data['toCurr']}")
+        quote = response.json()['rates'][data['toCurr']]
+        return jsonify(quote)
 
 if __name__ == "__main__":
     db.create_all()
