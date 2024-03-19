@@ -111,6 +111,7 @@ def login():
         #Assign session and redirect to Home Page
         session.permanent = True
         session["u_id"] = found_user.id
+        session["name"] = found_user.name
         return redirect(url_for('index'))
 
 @app.route('/logout')
@@ -153,7 +154,14 @@ def quote():
 
         response = requests.get(url).json()
         return render_template('quoted.html', data=response, rates=response['rates'], currencies=currencies, format=format)
-    
+
+@app.route('/portfolio', methods=["GET", "POST"])
+def portfolio():
+    if "u_id" not in session:
+        return redirect(url_for('login'))
+    elif request.method == "GET":
+        return render_template('/portfolio.html', name=session["name"])
+
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)
