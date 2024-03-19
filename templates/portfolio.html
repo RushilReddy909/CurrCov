@@ -1,11 +1,25 @@
 {% extends "layout.html" %}
 
-{% block title %} Your Title {% endblock %}
+{% block title %} Your Profile {% endblock %}
 
 {% block main %}
     <div class="container">
         <h1>Your Portfolio</h1>
         <hr>
-        <h2 style="text-decoration: none;">Welcome {{name}}</h2>
+        <h2 style="text-decoration: none;" class="mb-3">Welcome {{name}}</h2>
+        <div class="btnHolder mb-3">
+            <form style="text-align: center;" method="post">
+                <label for="base" class="form-label">Change Default Base</label>
+                <select class="form-select mb-3 w-auto" name="newbase" id="base">
+                    <option selected>Select New Base</option>
+                    {% for symbol in currencies %}
+                    <option value="{{symbol}}">{{currencies[symbol]}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-info mb-3">Update</button>
+            </form>
+            <!-- <a href="url_for('changepass')" class="btn btn-success my-3">Change Password</a> -->
+            <div><a class="btn btn-success my-3">Change Password</a></div>
+        </div>
     </div>
 {% endblock %}

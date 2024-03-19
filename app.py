@@ -20,6 +20,7 @@ class Users(db.Model):
     name = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     hash = db.Column(db.String(200))
+    base = db.Column(db.String(3), default='INR')
 
     def __init__(self, name, email, hash):
         self.name = name
@@ -37,11 +38,12 @@ def index():
     if "u_id" not in session:
         return redirect(url_for('login'))
     else:
-        response = requests.get("https://api.frankfurter.app/latest?from=INR&to=USD,EUR,JPY,GBP,AUD,CAD,CHF,CNY")
+        col = Users.query.filter_by(id = session["u_id"]).first()
+        response = requests.get(f"https://api.frankfurter.app/latest?from={col.base}&to=USD,EUR,JPY,GBP,AUD,CAD,CHF,CNY")
         #TODO handle error
         
         rates = response.json()["rates"]
-        return render_template('index.html', date=response.json()["date"], rates=json.dumps(rates), currencies=currencies)
+        return render_template('index.html', date=response.json()["date"], rates=json.dumps(rates), currencies=currencies, base=col.base)
 
 @app.route('/signup', methods=["POST", "GET"])
 def signup():
@@ -160,7 +162,17 @@ def portfolio():
     if "u_id" not in session:
         return redirect(url_for('login'))
     elif request.method == "GET":
-        return render_template('/portfolio.html', name=session["name"])
+        return render_template('/portfolio.html', name=session["name"], currencies=currencies)
+    else:
+        newbase = request.form["newbase"]
+
+        #Handle Error
+
+
+        user = Users.query.filter_by(id = session["u_id"]).first()
+        user.base = newbase
+        db.session.commit()
+        return redirect(url_for('portfolio'))
 
 if __name__ == "__main__":
     db.create_all()

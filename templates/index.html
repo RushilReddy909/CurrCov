@@ -70,10 +70,19 @@
     </div>
     <script>
         window.onload = function() {
-            var rates = JSON.parse('{{rates | safe}}'); 
-            for(let currency in rates)
+            var rates = JSON.parse('{{rates | safe}}');
+            currencyList = ["AUD", "CAD", "CHF", "CNY", "EUR", "GBP", "JPY", "USD"]
+            for(let currency of currencyList)
             {
-                document.getElementById(currency).innerText = (1 / rates[currency]).toFixed(4) + " INR";
+                var elem = document.getElementById(currency);
+                if(currency in rates)
+                {
+                    elem.innerText = (1 / rates[currency]).toFixed(4) + " {{base}}";
+                }
+                else
+                {
+                    elem.innerText = "1 " + currency;
+                }
             }
         }
     </script>
