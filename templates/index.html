@@ -10,48 +10,48 @@
         <div class="p-3 grid-a">
             <div class="card p-4">
                 <h4>Australian Dollar <img src="https://flagicons.lipis.dev/flags/4x3/au.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 AUD is equal to </h6>
                 <h3 id="AUD"></h3>
             </div>
             <div class="card p-4">
                 <h4>Canadian Dollar <img src="https://flagicons.lipis.dev/flags/4x3/ca.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 CAD is equal to </h6>
                 <h3 id="CAD"></h3>
             </div>
             <div class="card p-4">
                 <h4>Swiss Franc <img src="https://flagicons.lipis.dev/flags/4x3/ch.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 CHF is equal to </h6>
                 <h3 id="CHF"></h3>
             </div>
             <div class="card p-4">
                 <h4>Chinese Yuan <img src="https://flagicons.lipis.dev/flags/4x3/cn.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 CNY is equal to </h6>
                 <h3 id="CNY"></h3>
             </div>
             <div class="card p-4">
                 <h4>Euro <img src="https://flagicons.lipis.dev/flags/4x3/eu.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 EUR is equal to </h6>
                 <h3 id="EUR"></h3>
             </div>
             <div class="card p-4">
                 <h4>Pound Sterling <img src="https://flagicons.lipis.dev/flags/4x3/gb.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 GBP is equal to </h6>
                 <h3 id="GBP"></h3>
             </div>
             <div class="card p-4">
                 <h4>Japanese Yen <img src="https://flagicons.lipis.dev/flags/4x3/jp.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 JPY is equal to </h6>
                 <h3 id="JPY"></h3>
             </div>
             <div class="card p-4">
                 <h4>US Dollar <img src="https://flagicons.lipis.dev/flags/4x3/us.svg"></h4>
-                <h6 class="text-secondary">1 INR is equal to </h6>
+                <h6 class="text-secondary">1 USD is equal to </h6>
                 <h3 id="USD"></h3>
             </div>
         </div>
         <hr><br>
         <h2 class="mb-4">List of Supported Currencies</h2>
-        <table class="table table-hover" style="border-top: calc(var(--bs-border-width) * 2) solid currentcolor;">
+        <table class="table table-hover table-responsive" style="border-top: calc(var(--bs-border-width) * 2) solid currentcolor;">
             <thead>
                 <tr>
                     <th scope="col">Currency</th>
@@ -73,7 +73,7 @@
             var rates = JSON.parse('{{rates | safe}}'); 
             for(let currency in rates)
             {
-                document.getElementById(currency).innerText = rates[currency] + " " + currency;
+                document.getElementById(currency).innerText = (1 / rates[currency]).toFixed(4) + " INR";
             }
         }
     </script>

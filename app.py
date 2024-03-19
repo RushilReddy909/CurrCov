@@ -129,13 +129,31 @@ def quote():
     elif request.method == "GET":
         return render_template('quote.html', currencies=currencies)
     else:
-        #TODO error handling
+        #Get Input
+        fromC = request.form["fromC"]
+        toC = request.form["toC"]
+        amount = request.form["amount"]
+        fromDate = request.form["fromDate"]
+        toDate = request.form["toDate"]
 
-        data = request.json
-        response = requests.get(f"https://api.frankfurter.app/{data['date']}?amount={data['amount']}&from={data['fromCurr']}&to={data['toCurr']}")
-        quote = response.json()['rates'][data['toCurr']]
-        return jsonify(quote)
+        #Error handling
 
+        #API Request
+        url = "https://api.frankfurter.app/"
+        if fromDate and toDate:
+            url += f"{fromDate}..{toDate}?"
+        elif fromDate:
+            url += f"{fromDate}?"
+        else:
+            url += "latest?"
+
+        if amount:
+            url += f"amount={amount}&"
+        url += f"from={fromC}&to={toC}"
+
+        response = requests.get(url).json()
+        return render_template('quoted.html', data=response, rates=response['rates'], currencies=currencies, format=format)
+    
 if __name__ == "__main__":
     db.create_all()
     app.run(debug=True)

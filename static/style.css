@@ -80,6 +80,7 @@ nav {
 .card {
     border-color: white;
     box-shadow: rgba(0, 17, 51, 0.07) 0px 3px 15px;
+    border-radius: 15px;
 }
 
 h4 > img {
@@ -105,4 +106,9 @@ td {
     display: flex;
     align-items: center;
     justify-content: end;
+}
+
+.details {
+    font-size: 2.5em;
+    font-weight: bold;
 }
