@@ -75,14 +75,8 @@
             for(let currency of currencyList)
             {
                 var elem = document.getElementById(currency);
-                if(currency in rates)
-                {
-                    elem.innerText = (1 / rates[currency]).toFixed(4) + " {{base}}";
-                }
-                else
-                {
-                    elem.innerText = "1 " + currency;
-                }
+                if (currency in rates) elem.innerText = (1 / rates[currency]).toFixed(4) + " {{base}}";
+                else elem.innerText = "1 " + currency;
             }
         }
     </script>

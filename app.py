@@ -167,11 +167,44 @@ def portfolio():
         newbase = request.form["newbase"]
 
         #Handle Error
-
+        if newbase not in currencies:
+            flash("Couldn't change base currency.", "error")
+            return redirect(url_for('portfolio'))
 
         user = Users.query.filter_by(id = session["u_id"]).first()
         user.base = newbase
         db.session.commit()
+        return redirect(url_for('portfolio'))
+
+@app.route('/changepass', methods=["GET", "POST"])
+def changepass():
+    if "u_id" not in session:
+        return redirect(url_for('login'))
+    elif request.method == "GET":
+        return render_template('/changepass.html')
+    else:
+        oldPass = request.form["oldPass"]
+        newPass = request.form["newPass"]
+        rnewPass = request.form["rnewPass"]
+
+        if newPass != rnewPass:
+            flash("New Passwords don't match.", "error")
+            return redirect(url_for('changepass'))
+        
+        col = Users.query.filter_by(id = session["u_id"]).first()
+        if not security.check_password_hash(col.hash, oldPass):
+            flash("Incorrect Old Password Provided.", "error")
+            return redirect(url_for('changepass'))
+        
+        if not check_pass(newPass):
+            flash("Password is not of sufficient length.", "error")
+            return redirect(url_for('changepass'))
+
+        hashPass = security.generate_password_hash(newPass)
+        col.hash = hashPass
+        db.session.commit()
+
+        flash("Successfully Changed Password.", "message")
         return redirect(url_for('portfolio'))
 
 if __name__ == "__main__":

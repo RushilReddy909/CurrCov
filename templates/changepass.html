@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %} Change Password {% endblock %}
+
+{% block main %} 
+    <div class="container">
+        <h1>Change Password</h1>
+        <hr>
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                <div class="alert alert-danger"><i class="fa-solid fa-circle-xmark me-1"></i>{{messages[0]}}</div>
+            {% endif %}
+        {% endwith %}
+        <form class="dateCard p-3 m-3" style="flex-direction: column;" method="post">
+            <div class="mb-3">
+                <label for="oldPass" class="form-label">Old Password</label>
+                <input type="password" class="form-control" name="oldPass" id="oldPass" autocomplete="off" required>
+            </div>
+            <div class="mb-3">
+                <label for="newPass" class="form-label">New Password</label>
+                <input type="password" class="form-control" name="newPass" id="newPass" autocomplete="off" required>
+            </div>
+            <div class="mb-3">
+                <label for="rnewPass" class="form-label">Repeat New Password</label>
+                <input type="password" class="form-control" name="rnewPass" id="rnewPass" autocomplete="off" required>
+            </div>
+            <button type="submit" class="btn btn-success mt-4">Update Password</button>
+        </form>
+    </div>
+{% endblock %}
