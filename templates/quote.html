@@ -7,11 +7,17 @@
 <div class="container">
     <h1>Quote Currency</h1>
     <hr>
-    <p class="alert alert-info mx-5 my-2"><i class="fa-solid fa-circle-info me-1"></i>Select a currency to see how it compares to other currencies.</p>
+    {% with currencies = get_flashed_messages(category_filter=["error"]) %}
+        {% if currencies %}
+            <p class="alert alert-danger mx-5 my-2"><i class="fa-solid fa-circle-xmark me-1"></i>{{currencies[0]}}</p>
+        {% else %}
+            <p class="alert alert-info mx-5 my-2"><i class="fa-solid fa-circle-info me-1"></i>Select a currency to see how it compares to other currencies.</p>
+        {% endif %}
+    {% endwith %}
     <form class="grid-b justify-content-evenly" method="post">
         <div class="card p-3 m-5">
             <select class="form-select form-select-lg mb-4 w-auto" name="fromC">
-                <option selected>Select Currency</option>
+                <option selected value="">Select Currency</option>
                 {% for symbol in currencies %}
                 <option value="{{symbol}}">{{currencies[symbol]}}</option>
                 {% endfor %}
@@ -29,7 +35,7 @@
         </div>
         <div class="card p-3 m-5">
             <select class="form-select form-select-lg mb-4 w-auto" name="toC">
-                <option selected>Select Currency</option>
+                <option selected value="">Select Currency</option>
                 {% for symbol in currencies %}
                 <option value="{{symbol}}">{{currencies[symbol]}}</option>
                 {% endfor %}

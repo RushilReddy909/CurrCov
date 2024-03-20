@@ -6,7 +6,13 @@
     <div class="container p-3">
         <h1>Popular Currencies</h1>
         <hr>
-        <p class="alert alert-info mx-3"><i class="fa-solid fa-circle-info me-1"></i> Records are as of {{date}} (YYYY/MM/DD)</p>
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+            <p class="alert alert-danger mx-3"><i class="fa-solid fa-circle-xmark me-1"></i> {{messages[0]}}</p>
+            {% else %}
+                <p class="alert alert-info mx-3"><i class="fa-solid fa-circle-info me-1"></i> Records are as of {{date}} (YYYY/MM/DD)</p>
+            {% endif %}
+        {% endwith %}
         <div class="p-3 grid-a">
             <div class="card p-4">
                 <h4>Australian Dollar <img src="https://flagicons.lipis.dev/flags/4x3/au.svg"></h4>

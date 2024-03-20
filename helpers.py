@@ -1,5 +1,4 @@
 import re
-import requests
 
 def check_email(email):
     # Regular expression pattern for validating email addresses

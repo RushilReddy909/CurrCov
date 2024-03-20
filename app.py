@@ -1,9 +1,9 @@
 from os import urandom
-from flask import Flask, render_template, request, session, redirect, url_for, flash, get_flashed_messages,jsonify
+from flask import Flask, render_template, request, session, redirect, url_for, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug import security
 from helpers import check_email, check_pass
-from datetime import timedelta
+from datetime import timedelta, datetime
 import requests
 import json
 
@@ -40,8 +40,12 @@ def index():
     else:
         col = Users.query.filter_by(id = session["u_id"]).first()
         response = requests.get(f"https://api.frankfurter.app/latest?from={col.base}&to=USD,EUR,JPY,GBP,AUD,CAD,CHF,CNY")
-        #TODO handle error
-        
+
+        #Handle Error
+        if not response.ok:
+            flash("Error retrieving data from API.", "error")
+            return render_template('index.html', currencies=currencies, base=col.base)
+
         rates = response.json()["rates"]
         return render_template('index.html', date=response.json()["date"], rates=json.dumps(rates), currencies=currencies, base=col.base)
 
@@ -58,7 +62,7 @@ def signup():
         con_pass = request.form["cpass"]
         
         # Server Validation
-        found_user = Users.query.filter_by(email = email).first()
+        found_user = Users.query.filter_by(email=email).first()
         if not check_email(email):
             flash("Invalid Email Address provided.", "error")
             return redirect(url_for('signup'))
@@ -140,6 +144,20 @@ def quote():
         toDate = request.form["toDate"]
 
         #Error handling
+        if fromC not in currencies or toC not in currencies:
+            flash("Invalid input currencies.", "error")
+            return redirect(url_for('quote'))
+        
+        fromDateObj = datetime.strptime(fromDate, "%Y-%m-%d")
+        toDateObj = datetime.strptime(toDate, "%Y-%m-%d")
+
+        if(fromDateObj > toDateObj):
+            flash("Invalid time series input.", "error")
+            return redirect(url_for('quote'))
+        
+        if((toDateObj - fromDateObj).days >= 31):
+            flash("Time Gap is larger than 31 days.", "error")
+            return redirect(url_for('quote'))
 
         #API Request
         url = "https://api.frankfurter.app/"
