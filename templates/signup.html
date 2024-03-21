@@ -13,7 +13,7 @@
       {% endif %}
     {% endwith %}
     <hr>
-    <form method="post" class="mx-3 mb-3">
+    <form method="post" class="mx-3 mb-3" onsubmit="return validateSign()">
         <div class="row">
             <div class="col-lg-6 col-md-12 mb-3">
                 <div class="mb-3">
@@ -41,7 +41,7 @@
                     <input class="form-check-input" type="checkbox" value="" id="agreement" required>
                     <label for="agreement" class="form-check-label">I agree that everything provided is correct upto my best knowledge.</label>
                 </div>
-                <button type="submit" class="btn btn-info me-5" onclick="validation()">Register</button>
+                <button type="submit" class="btn btn-info me-5">Register</button>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div id="carouselExampleIndicators" class="carousel slide carousel-fade">
@@ -74,4 +74,7 @@
         </div>
     </form>
 </div>
+{% endblock %}
+{% block script %}
+<script src="../static/signupJS.js"></script>
 {% endblock %}

@@ -148,16 +148,17 @@ def quote():
             flash("Invalid input currencies.", "error")
             return redirect(url_for('quote'))
         
-        fromDateObj = datetime.strptime(fromDate, "%Y-%m-%d")
-        toDateObj = datetime.strptime(toDate, "%Y-%m-%d")
+        if fromDate and toDate:
+            fromDateObj = datetime.strptime(fromDate, "%Y-%m-%d")
+            toDateObj = datetime.strptime(toDate, "%Y-%m-%d")
 
-        if(fromDateObj > toDateObj):
-            flash("Invalid time series input.", "error")
-            return redirect(url_for('quote'))
-        
-        if((toDateObj - fromDateObj).days >= 31):
-            flash("Time Gap is larger than 31 days.", "error")
-            return redirect(url_for('quote'))
+            if(fromDateObj > toDateObj):
+                flash("Invalid time series input.", "error")
+                return redirect(url_for('quote'))
+            
+            if((toDateObj - fromDateObj).days >= 31):
+                flash("Time Gap is larger than 31 days.", "error")
+                return redirect(url_for('quote'))
 
         #API Request
         url = "https://api.frankfurter.app/"
@@ -175,24 +176,24 @@ def quote():
         response = requests.get(url).json()
         return render_template('quoted.html', data=response, rates=response['rates'], currencies=currencies, format=format)
 
-@app.route('/portfolio', methods=["GET", "POST"])
-def portfolio():
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
     if "u_id" not in session:
         return redirect(url_for('login'))
     elif request.method == "GET":
-        return render_template('/portfolio.html', name=session["name"], currencies=currencies)
+        return render_template('/profile.html', name=session["name"], currencies=currencies)
     else:
         newbase = request.form["newbase"]
 
         #Handle Error
         if newbase not in currencies:
             flash("Couldn't change base currency.", "error")
-            return redirect(url_for('portfolio'))
+            return redirect(url_for('profile'))
 
         user = Users.query.filter_by(id = session["u_id"]).first()
         user.base = newbase
         db.session.commit()
-        return redirect(url_for('portfolio'))
+        return redirect(url_for('profile'))
 
 @app.route('/changepass', methods=["GET", "POST"])
 def changepass():
@@ -223,7 +224,7 @@ def changepass():
         db.session.commit()
 
         flash("Successfully Changed Password.", "message")
-        return redirect(url_for('portfolio'))
+        return redirect(url_for('profile'))
 
 if __name__ == "__main__":
     db.create_all()

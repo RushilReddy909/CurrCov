@@ -18,7 +18,7 @@
             {% endif %}
         {% endwith %}
         <hr>
-        <form method="post" class="mx-3">
+        <form method="post" class="mx-3" onsubmit="return validateLogin()">
             <div class="row mb-5">
                 <div class="col-lg-6 col-md-12">
                     <img src="https://img.freepik.com/free-vector/people-work-office-together_107791-11269.jpg?w=1380&t=st=1710589662~exp=1710590262~hmac=a14da3436cbd5507cf1427d6ea5d30264a556ac2b1b9e922fd1b7fd57c8c8433" width="100%" height="100%">
@@ -44,4 +44,8 @@
     </div>
     <br>
     <br>
+{% endblock %}
+
+{% block script %}
+<script src="../static/script.js"></script>
 {% endblock %}
