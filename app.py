@@ -148,9 +148,11 @@ def quote():
             flash("Invalid input currencies.", "error")
             return redirect(url_for('quote'))
         
+        server_date = datetime.now().date()
+        
         if fromDate and toDate:
-            fromDateObj = datetime.strptime(fromDate, "%Y-%m-%d")
-            toDateObj = datetime.strptime(toDate, "%Y-%m-%d")
+            fromDateObj = datetime.strptime(fromDate, "%Y-%m-%d").date()
+            toDateObj = datetime.strptime(toDate, "%Y-%m-%d").date()
 
             if(fromDateObj > toDateObj):
                 flash("Invalid time series input.", "error")
@@ -158,6 +160,10 @@ def quote():
             
             if((toDateObj - fromDateObj).days >= 31):
                 flash("Time Gap is larger than 31 days.", "error")
+                return redirect(url_for('quote'))
+            
+            if fromDateObj > server_date or toDateObj > server_date:
+                flash("Dates cannot be greater than the server date.", "error")
                 return redirect(url_for('quote'))
 
         #API Request
