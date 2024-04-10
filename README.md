@@ -1,3 +1,4 @@
+Website might take time to load.
 # Project
 # TODO:
 # 1.Add JS client side validation.
